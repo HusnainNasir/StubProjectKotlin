@@ -1,15 +1,18 @@
 package com.example.stubprojectkotlin.ui.main_activity
 
 import android.os.Bundle
-import android.util.Log
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.stubprojectkotlin.BaseActivity
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.callbacks.LocationPermissionCallback
-import com.example.stubprojectkotlin.callbacks.PermissionCallback
+import com.example.stubprojectkotlin.ui.login_activity.LoginActivity
 import com.example.stubprojectkotlin.utils.LocationManager
-import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
+
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     override val layoutId: Int
         get() = R.layout.activity_main
@@ -20,22 +23,35 @@ class MainActivity : BaseActivity() {
 
     override fun created(savedInstance: Bundle?) {
 
-        locationManager = LocationManager(this, true)
+        init();
 
-        locationPermission(object : PermissionCallback {
-            override fun permissionCallback(isPermission: Boolean) {
-                if (isPermission) {
-                    locationManager.locationRequest(object : LocationPermissionCallback {
-                        override fun locationCallback(
-                            currentLatLng: LatLng,
-                            fakeLocation: Boolean
-                        ) {
+    }
 
-                           Log.d(tag , currentLatLng.latitude.toString())
-                        }
-                    })
+    private fun init(){
+
+        // Drawer Toggle
+        drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // Nav Item Selected Listener
+        nav.setNavigationItemSelectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.account -> activityNavigation(
+                    this,
+                    LoginActivity::class.java, false, emptyList(), emptyList()
+                )
+                R.id.update -> {
+                    Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show()
                 }
+                R.id.logout -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
             }
-        })
+            false
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (drawerToggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 }
