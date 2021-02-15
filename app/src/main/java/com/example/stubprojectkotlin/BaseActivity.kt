@@ -60,7 +60,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
         return gpsEnabled || networkEnabled
     }
 
-    fun locationPermission(permissionCallback: PermissionCallback?) {
+    fun locationPermission(permissionCallback: PermissionCallback) {
         this.permissionCallback = permissionCallback
         if (locationEnabled()) {
             requestLocationPermission()

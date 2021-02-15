@@ -48,7 +48,7 @@ class PreferenceHelper private constructor(context: Context) {
             if (preferenceInstance == null) {
                 preferenceInstance = PreferenceHelper(context)
             }
-            return preferenceInstance
+            return preferenceInstance 
         }
     }
 

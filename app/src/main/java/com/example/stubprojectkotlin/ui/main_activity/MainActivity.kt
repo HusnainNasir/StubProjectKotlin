@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import com.example.stubprojectkotlin.BaseActivity
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.callbacks.LocationPermissionCallback
-import com.example.stubprojectkotlin.callbacks.PermissionCallback
 import com.example.stubprojectkotlin.utils.LocationManager
-import com.google.android.gms.maps.model.LatLng
+
 
 class MainActivity : BaseActivity() {
 
@@ -15,6 +13,7 @@ class MainActivity : BaseActivity() {
         get() = R.layout.activity_main
     override val tag: String?
         get() = MainActivity::class.simpleName
+    
 
     private lateinit var locationManager: LocationManager
 
@@ -22,7 +21,7 @@ class MainActivity : BaseActivity() {
 
         locationManager = LocationManager(this, true)
 
-        locationPermission(object : PermissionCallback {
+        /*locationPermission(object : PermissionCallback {
             override fun permissionCallback(isPermission: Boolean) {
                 if (isPermission) {
                     locationManager.locationRequest(object : LocationPermissionCallback {
@@ -36,6 +35,16 @@ class MainActivity : BaseActivity() {
                     })
                 }
             }
-        })
+        })*/
+
+
+        Log.d("MainActivity" , "Sum of two Number ${sumOfTwoNumber(firstNumber =  18 , secondNumber = 2.0).toInt()}")
+
+
+
     }
+
+    private fun sumOfTwoNumber(firstNumber :Int , secondNumber : Double) = firstNumber + secondNumber
+
+
 }
