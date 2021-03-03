@@ -8,6 +8,7 @@ import com.example.stubprojectkotlin.BaseActivity
 import com.example.stubprojectkotlin.R
 import com.example.stubprojectkotlin.ui.login_activity.LoginActivity
 import com.example.stubprojectkotlin.utils.LocationManager
+import com.example.stubprojectkotlin.utils.NetworkManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -43,7 +44,8 @@ class MainActivity : BaseActivity() {
                     LoginActivity::class.java, false, emptyList(), emptyList()
                 )
                 R.id.update -> {
-                    Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show()
+
+                    Toast.makeText(this, "${NetworkManager.getInstance(application = application).isConnected} Status" , Toast.LENGTH_SHORT).show()
                 }
                 R.id.logout -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
             }

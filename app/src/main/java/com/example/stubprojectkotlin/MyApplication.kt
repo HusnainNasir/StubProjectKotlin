@@ -2,12 +2,14 @@ package com.example.stubprojectkotlin
 
 import android.content.Context
 import androidx.multidex.MultiDexApplication
+import com.example.stubprojectkotlin.utils.NetworkManager
 
 class MyApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+        NetworkManager.getInstance(application = this)
     }
 
     companion object {
