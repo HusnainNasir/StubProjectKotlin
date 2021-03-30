@@ -9,35 +9,35 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
 import com.example.stubprojectkotlin.callbacks.OnClickCallback
 import com.example.stubprojectkotlin.callbacks.PermissionCallback
 import com.example.stubprojectkotlin.utils.AlertDialogs
 import com.example.stubprojectkotlin.utils.Constants
 import com.example.stubprojectkotlin.utils.PreferenceHelper
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import pub.devrel.easypermissions.PermissionRequest
+import javax.inject.Inject
 
+@AndroidEntryPoint
 abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
     // Getters/Setters
-    var preferenceHelper: PreferenceHelper? = null
-        private set
+    @Inject
+    lateinit var preferenceHelper: PreferenceHelper
 
-    var gSON: Gson? = null
-        private set
+    @Inject
+    lateinit var gSON: Gson
+
     private var permissionCallback: PermissionCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (layoutId != 0) {
             setContentView(layoutId)
-            ButterKnife.bind(this)
-            preferenceHelper = PreferenceHelper.preferenceInstance(applicationContext)
-            gSON = Gson()
             created(savedInstanceState)
         }
     }
@@ -67,15 +67,17 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
         } else {
             AlertDialogs.showAlertDialog(this, getString(R.string.location_setting),
                 getString(R.string.enableLocation), getString(R.string.setting),
-                getString(R.string.cancel), false , object : OnClickCallback{
-                override fun onclick(obj: Any?) {
-                    if (obj as Int == Constants.CLICK_POSITIVE) {
-                        startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE
-                        )
+                getString(R.string.cancel), false, object : OnClickCallback {
+                    override fun onclick(obj: Any?) {
+                        if (obj as Int == Constants.CLICK_POSITIVE) {
+                            startActivityForResult(
+                                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                                AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE
+                            )
+                        }
                     }
-                }
 
-            })
+                })
         }
     }
 
@@ -186,8 +188,10 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
     // Activity Navigation
-    fun activityNavigation(context: Context?, activityClass: Class<*>?, isFinish: Boolean,
-        dataName: List<String>, dataValues: List<Any>) {
+    fun activityNavigation(
+        context: Context?, activityClass: Class<*>?, isFinish: Boolean,
+        dataName: List<String>, dataValues: List<Any>
+    ) {
 
         val activityIntent = Intent(context, activityClass)
         val incrementData = 0

@@ -1,23 +1,11 @@
 package com.example.stubprojectkotlin
 
+import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDexApplication
+import dagger.hilt.android.HiltAndroidApp
 
-class MyApplication : MultiDexApplication() {
+@HiltAndroidApp
+class MyApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-    }
-
-    companion object {
-        private var instance: MyApplication? = null
-        fun getInstance(): MyApplication {
-            return if (instance == null) MyApplication() else instance!!
-        }
-
-        @JvmStatic
-        val context: Context
-            get() = instance!!.applicationContext
-    }
 }

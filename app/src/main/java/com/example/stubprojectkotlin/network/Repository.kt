@@ -1,25 +1,12 @@
 package com.example.stubprojectkotlin.network
 
-import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import com.example.stubprojectkotlin.network.RetrofitHelper.Companion.getInstance
-import io.reactivex.disposables.CompositeDisposable
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
-class Repository(application: Application) {
+import javax.inject.Inject
 
-    // MEMBERS
-    private val apiServiceInterface: ApiService = getInstance(application)!!.apiInterface
-    private val executor: Executor
+class Repository @Inject constructor(private val apiService: ApiService) {
 
-    // COMPOSITE DISPOSABLE
-    private val compositeDisposable = CompositeDisposable()
+    suspend fun login(loginHashMap: HashMap<String , Any>) = apiService.login(loginHashMap)
 
-    // Error Live Data
-    val onThrowableLiveData = MutableLiveData<Throwable>()
+    suspend fun getMalls() = apiService.getMalls()
 
-    init {
-        executor = Executors.newSingleThreadExecutor()
-    }
 }

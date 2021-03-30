@@ -3,12 +3,14 @@ package com.example.stubprojectkotlin.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class PreferenceHelper private constructor(context: Context) {
+class PreferenceHelper @Inject constructor(@ApplicationContext context: Context) {
 
     private val appPrefs: SharedPreferences = context.getSharedPreferences(Constants.DB_NAME, Context.MODE_PRIVATE)
 
-    private val editor: SharedPreferences.Editor
+    private val editor: SharedPreferences.Editor = appPrefs.edit()
     private val AUTH_TOKEN = "auth_token"
     private val USER_EMAIL = "user_email"
     private val USER_PASSWORD = "user_password"
@@ -41,19 +43,7 @@ class PreferenceHelper private constructor(context: Context) {
             editor.apply()
         }
 
-    companion object {
-        private var preferenceInstance: PreferenceHelper? = null
-
-        fun preferenceInstance(context: Context): PreferenceHelper? {
-            if (preferenceInstance == null) {
-                preferenceInstance = PreferenceHelper(context)
-            }
-            return preferenceInstance 
-        }
-    }
-
     init {
-        editor = appPrefs.edit()
         editor.apply()
     }
 }
