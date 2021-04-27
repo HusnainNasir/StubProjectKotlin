@@ -25,6 +25,7 @@ object UtilsFunction {
         return Base64.encodeToString(bOut.toByteArray(), Base64.NO_WRAP)
     }
 
+
     // ENCODE FILE TO BASE 64
     fun base64ToFile(file: File): String {
         val bm = BitmapFactory.decodeFile(file.path)

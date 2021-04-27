@@ -5,12 +5,18 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
-data class User(
+class User{
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id : Int,
+    var id: Int = 0
 
     @ColumnInfo(name = "title")
-    var name : String
-)
+    var title: String = ""
+
+    @ColumnInfo(name = "name")
+    var name: String = ""
+
+    @ColumnInfo(name = "phone")
+    var phone: String = ""
+}

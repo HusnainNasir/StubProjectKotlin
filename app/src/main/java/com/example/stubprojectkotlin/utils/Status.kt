@@ -3,5 +3,6 @@ package com.example.stubprojectkotlin.utils
 enum class Status {
     SUCCESS,
     ERROR,
-    LOADING
+    LOADING,
+    INTERNET_CONNECTIVITY
 }

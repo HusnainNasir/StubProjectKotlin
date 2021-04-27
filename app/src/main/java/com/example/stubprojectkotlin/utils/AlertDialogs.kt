@@ -1,7 +1,6 @@
 package com.example.stubprojectkotlin.utils
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,7 +11,6 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.stubprojectkotlin.R
 import com.example.stubprojectkotlin.callbacks.OnClickCallback
-import java.util.*
 
 object AlertDialogs {
 

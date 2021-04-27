@@ -1,6 +1,5 @@
 package com.example.stubprojectkotlin.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,5 +13,5 @@ interface UserDao {
     suspend fun insert(user: User)
 
     @Query("SELECT * FROM users")
-    fun get(): LiveData<List<User>>
+    suspend fun getUser(): List<User>
 }

@@ -16,6 +16,10 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             return Resource(Status.LOADING, data, null)
         }
 
+        fun <T> internetConnectivity(msg: String): Resource<T> {
+            return Resource(Status.INTERNET_CONNECTIVITY, null, msg)
+        }
+
     }
 
 }

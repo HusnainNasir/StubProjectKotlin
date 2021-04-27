@@ -1,6 +1,7 @@
 package com.example.stubprojectkotlin.di.module
 
 import android.content.Context
+import com.example.stubprojectkotlin.utils.NetworkManager
 import com.example.stubprojectkotlin.utils.PreferenceHelper
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,10 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun getPreferenceHelper(@ApplicationContext context: Context) : PreferenceHelper = PreferenceHelper(context)
+    fun getPreferenceHelper(@ApplicationContext context: Context): PreferenceHelper =
+        PreferenceHelper(context)
+
+    @Provides
+    @Singleton
+    fun getNetworkManager(@ApplicationContext context: Context): NetworkManager = NetworkManager(context)
 }

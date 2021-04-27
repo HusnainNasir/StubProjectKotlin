@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.stubprojectkotlin.callbacks.OnClickCallback
 import com.example.stubprojectkotlin.callbacks.PermissionCallback
@@ -31,15 +32,14 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
 
     @Inject
     lateinit var gSON: Gson
+//
 
     private var permissionCallback: PermissionCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (layoutId != 0) {
-            setContentView(layoutId)
-            created(savedInstanceState)
-        }
+        setContentView(layoutId)
+        created(savedInstanceState)
     }
 
     // Permissions Camera , Location
@@ -196,14 +196,14 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
         val activityIntent = Intent(context, activityClass)
         val incrementData = 0
         for (intentValue in dataName) {
-            activityIntent.putExtra(intentValue, gSON?.toJson(dataValues[incrementData]))
+            activityIntent.putExtra(intentValue, gSON.toJson(dataValues[incrementData]))
         }
         startActivity(activityIntent)
         if (isFinish) finish()
     }
 
     // Abstract Method
-    protected abstract val layoutId: Int
+    protected abstract val layoutId: View
     protected abstract val tag: String?
     protected abstract fun created(savedInstance: Bundle?)
 }
