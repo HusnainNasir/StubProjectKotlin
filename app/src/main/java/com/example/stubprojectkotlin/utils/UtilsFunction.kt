@@ -1,10 +1,12 @@
 package com.example.stubprojectkotlin.utils
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Looper
 import android.util.Base64
+import android.util.TypedValue
 import com.example.stubprojectkotlin.callbacks.NetworkCallback
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -25,6 +27,10 @@ object UtilsFunction {
         return Base64.encodeToString(bOut.toByteArray(), Base64.NO_WRAP)
     }
 
+
+    fun convertToDip(value: Int): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP , value.toFloat() ,Resources.getSystem().displayMetrics).toInt()
+    }
 
     // ENCODE FILE TO BASE 64
     fun base64ToFile(file: File): String {

@@ -52,13 +52,12 @@ class MainActivity : BaseActivity() {
 
 
             GlobalScope.launch(Dispatchers.Main) {
-                val userOne = withContext(Dispatchers.IO) { mainViewModel.getUsersFromDB() }
+                val userOne = withContext(Dispatchers.IO) { mainViewModel.getMalls() }
 
-                showUser(userOne)
             }
         }
 
-        mainViewModel.getUsers().observe(this, {
+        mainViewModel.getMallsLive().observe(this, {
             when (it.status) {
 
                 SUCCESS -> Log.d(tag, it.data.toString())

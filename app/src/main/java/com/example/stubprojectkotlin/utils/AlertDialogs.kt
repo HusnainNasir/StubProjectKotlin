@@ -82,5 +82,7 @@ object AlertDialogs {
         dialog.window?.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
+
+
 }
 

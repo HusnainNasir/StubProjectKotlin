@@ -2,21 +2,15 @@ package com.example.stubprojectkotlin.db.entites
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
-class User{
+data class User(
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0
-
-    @ColumnInfo(name = "title")
-    var title: String = ""
-
-    @ColumnInfo(name = "name")
-    var name: String = ""
-
-    @ColumnInfo(name = "phone")
+    var id: Int = 0,
+    var title: String = "",
+    @Ignore var name: String = "",
     var phone: String = ""
-}
+)
