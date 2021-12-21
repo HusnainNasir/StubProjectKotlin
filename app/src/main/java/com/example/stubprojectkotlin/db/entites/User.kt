@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users")
+@Entity
 data class User(
 
     @PrimaryKey(autoGenerate = true)

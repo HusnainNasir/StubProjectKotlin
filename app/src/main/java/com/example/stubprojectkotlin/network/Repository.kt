@@ -11,7 +11,7 @@ class Repository @Inject constructor(private val apiService: ApiService  , priva
 
     suspend fun getMalls() = apiService.getMalls()
 
-    suspend fun getUser() = userDao.getUser()
+//    suspend fun getUser() = userDao.getUser()
 
     suspend fun insertUser(user: User) = userDao.insert(user)
 

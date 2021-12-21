@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
 
     fun login(loginHashMap: HashMap<String, Any>) {
 
-        users.postValue(Resource.loading(null))
+//        users.postValue(Resource.loading(null))
         viewModelScope.launch(exceptionHandler) {
 
             if (networkManager.isWorking) {
@@ -88,6 +88,6 @@ class MainViewModel @Inject constructor(
     fun getMallsLive() = malls
 
 
-    suspend fun getUsersFromDB() = mainRepository.getUser()
+//    suspend fun getUsersFromDB() = mainRepository.getUser()
 
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.stubprojectkotlin.BaseActivity
+import com.example.stubprojectkotlin.background_jobs.BackgroundJobs
 import com.example.stubprojectkotlin.databinding.ActivityMainBinding
 import com.example.stubprojectkotlin.db.entites.User
 import com.example.stubprojectkotlin.network.MainViewModel
@@ -49,12 +50,13 @@ class MainActivity : BaseActivity() {
         activityMainBinding.getMalls.setOnClickListener {
 //            mainViewModel.getMalls()
 
+            val workManagerService = BackgroundJobs(applicationContext)
 
-
-            GlobalScope.launch(Dispatchers.Main) {
-                val userOne = withContext(Dispatchers.IO) { mainViewModel.getMalls() }
-
-            }
+            workManagerService.createOneTimeWorkRequest()
+            workManagerService.getWorkInfoLiveData().observe(this , {
+                val status: String = it.state.name
+                Toast.makeText(this,status, Toast.LENGTH_SHORT).show()
+            })
         }
 
         mainViewModel.getMallsLive().observe(this, {

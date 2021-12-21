@@ -6,7 +6,7 @@ import com.example.stubprojectkotlin.db.dao.UserDao
 import com.example.stubprojectkotlin.db.entites.User
 
 
-@Database(entities = [User::class], version = 2)
+@Database(entities = [User::class], version = 2 , exportSchema = false)
 abstract class ApplicationDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
