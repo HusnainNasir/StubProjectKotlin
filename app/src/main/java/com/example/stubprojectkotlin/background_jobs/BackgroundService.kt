@@ -6,20 +6,18 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.example.stubprojectkotlin.BuildConfig.BASE_URL
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.di.module.RetrofitModule
 import com.example.stubprojectkotlin.network.ApiService
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 
 
 class BackgroundService (
@@ -65,8 +63,6 @@ class BackgroundService (
             .setContentTitle(title)
             .setContentText(description)
             .setSmallIcon(R.mipmap.ic_launcher)
-
-
 
         notificationManager.notify(1, notificationBuilder.build())
     }
