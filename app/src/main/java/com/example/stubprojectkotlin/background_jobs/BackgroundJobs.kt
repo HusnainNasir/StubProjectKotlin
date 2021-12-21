@@ -60,8 +60,6 @@ class BackgroundJobs(context: Context)  {
 //        observeWork(imageWorker.id)
     }
 
-
-
     fun getWorkInfoLiveData() = workManager.getWorkInfoByIdLiveData(observerWorkId)
 
 //    private fun observeWork(id: UUID) {
