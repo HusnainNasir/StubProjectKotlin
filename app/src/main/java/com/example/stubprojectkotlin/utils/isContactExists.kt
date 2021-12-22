@@ -1,4 +1,4 @@
-package com.mobiledev.contacts
+package com.example.stubprojectkotlin.utils
 
 import android.Manifest
 import android.annotation.SuppressLint
