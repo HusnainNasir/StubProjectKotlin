@@ -7,6 +7,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
 import androidx.annotation.RequiresPermission
+import java.io.File
 
 
 @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -26,6 +27,7 @@ fun Context.isContactExists(
         return (it?.moveToFirst() == true)
     }
 }
+
 
 @SuppressLint("Range")
 @RequiresPermission(Manifest.permission.READ_CONTACTS)
@@ -48,16 +50,49 @@ fun Context.retrieveAllContacts(
         if (it.moveToFirst()) {
             do {
                 val contactId = it.getLong(it.getColumnIndex(CONTACT_PROJECTION[0]))
-                val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
-                val hasPhoneNumber = it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])).toInt()
-//                val email = it.getString(it.getColumnIndex(CONTACT_PROJECTION[4])) ?: ""
-                val phoneNumber: List<String> = if (hasPhoneNumber > 0) {
-                    retrievePhoneNumber(contactId)
-                } else mutableListOf()
+                val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[1])) ?: ""
+                val contactNumber = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
+                val avatar = it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])) ?: null
 
-                val avatar = if (retrieveAvatar) retrieveAvatar(contactId) else null
                 val email = retrieveEmail(contactId)
-                result.add(ContactData(contactId, name, phoneNumber, avatar , email))
+                result.add(ContactData(contactId, name, contactNumber, avatar, email))
+            } while (it.moveToNext())
+        }
+    }
+    return result
+}
+
+@SuppressLint("Range")
+@RequiresPermission(Manifest.permission.READ_CONTACTS)
+@JvmOverloads
+fun Context.retrieveAllContactsByPhoneURI(
+    searchPattern: String = "",
+    retrieveAvatar: Boolean = true,
+    limit: Int = -1,
+    offset: Int = -1
+): List<ContactData> {
+    val result: MutableList<ContactData> = mutableListOf()
+    contentResolver.query(
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        CONTACT_PROJECTION,
+        if (searchPattern.isNotBlank()) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?" else null,
+        if (searchPattern.isNotBlank()) arrayOf("%$searchPattern%") else null,
+        if (limit > 0 && offset > -1) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} ASC LIMIT $limit OFFSET $offset"
+        else ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+    )?.use {
+        if (it.moveToFirst()) {
+            do {
+                val contactId = it.getLong(it.getColumnIndex(CONTACT_PROJECTION[0]))
+                val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[1])) ?: ""
+                val contactNumber = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
+                val avatar = it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])) ?: null
+
+
+                avatar?.let {
+                    val file = File(avatar)
+                }
+                val email = retrieveEmail(contactId)
+                result.add(ContactData(contactId, name, contactNumber, avatar, email))
             } while (it.moveToNext())
         }
     }
@@ -76,33 +111,29 @@ fun Context.searchContactByName(
 ): List<ContactData> {
     val result: MutableList<ContactData> = mutableListOf()
     contentResolver.query(
-        ContactsContract.Contacts.CONTENT_URI,
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
         CONTACT_PROJECTION,
-        if (searchPattern.isNotBlank()) "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} LIKE ?" else null,
+        if (searchPattern.isNotBlank()) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?" else null,
         if (searchPattern.isNotBlank()) arrayOf("%$searchPattern%") else null,
-        if (limit > 0 && offset > -1) "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} ASC LIMIT $limit OFFSET $offset"
-        else ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " ASC"
+        if (limit > 0 && offset > -1) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} ASC LIMIT $limit OFFSET $offset"
+        else ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
     )?.use {
         if (it.moveToFirst()) {
             do {
                 val contactId = it.getLong(it.getColumnIndex(CONTACT_PROJECTION[0]))
-                val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
-                val hasPhoneNumber = it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])).toInt()
-//                val email = it.getString(it.getColumnIndex(CONTACT_PROJECTION[4])) ?: ""
-                val phoneNumber: List<String> = if (hasPhoneNumber > 0) {
-                    retrievePhoneNumber(contactId)
-                } else mutableListOf()
-
-                val avatar = if (retrieveAvatar) retrieveAvatar(contactId) else null
+                val name = it.getString(it.getColumnIndex(CONTACT_PROJECTION[1])) ?: ""
+                val contactNumber = it.getString(it.getColumnIndex(CONTACT_PROJECTION[2])) ?: ""
+                val avatar = it.getString(it.getColumnIndex(CONTACT_PROJECTION[3])) ?: null
+//
+//                val avatar = if (retrieveAvatar) retrieveAvatar(contactId) else null
                 val email = retrieveEmail(contactId)
-                result.add(ContactData(contactId, name, phoneNumber, avatar , email))
+                result.add(ContactData(contactId, name, contactNumber, null, email))
             } while (it.moveToNext())
         }
     }
     return result
 }
 
-@SuppressLint("Range")
 private fun Context.retrievePhoneNumber(contactId: Long): List<String> {
     val result: MutableList<String> = mutableListOf()
     contentResolver.query(
@@ -114,7 +145,7 @@ private fun Context.retrievePhoneNumber(contactId: Long): List<String> {
     )?.use {
         if (it.moveToFirst()) {
             do {
-                result.add(it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
+//                result.add(it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
             } while (it.moveToNext())
         }
     }
@@ -149,24 +180,25 @@ private fun Context.retrieveEmail(contactId: Long): String? {
     return contentResolver.query(
         ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
         ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=?",
-        arrayOf(contactId.toString()), null)?.use {
+        arrayOf(contactId.toString()), null
+    )?.use {
         if (it.moveToFirst()) {
-            it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA) )
+            it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
         } else null
     }
 }
 
 private val CONTACT_PROJECTION = arrayOf(
-    ContactsContract.Contacts._ID,
-    ContactsContract.Contacts.LOOKUP_KEY,
-    ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
-    ContactsContract.Contacts.HAS_PHONE_NUMBER
+    ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+    ContactsContract.CommonDataKinds.Phone.NUMBER,
+    ContactsContract.CommonDataKinds.Phone.PHOTO_URI
 )
 
 data class ContactData(
     val contactId: Long,
     val name: String,
-    val phone_no: List<String>,
-    val pic: Uri?,
-    val email : String?
+    val phone_no: String,
+    val pic: String?,
+    val email: String?
 )
