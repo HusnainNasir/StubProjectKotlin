@@ -40,12 +40,12 @@ fun Context.retrieveAllContacts(
 ): List<ContactData> {
     val result: MutableList<ContactData> = mutableListOf()
     contentResolver.query(
-        ContactsContract.Contacts.CONTENT_URI,
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
         CONTACT_PROJECTION,
-        if (searchPattern.isNotBlank()) "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} LIKE ?" else null,
+        if (searchPattern.isNotBlank()) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?" else null,
         if (searchPattern.isNotBlank()) arrayOf("%$searchPattern%") else null,
-        if (limit > 0 && offset > -1) "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} ASC LIMIT $limit OFFSET $offset"
-        else ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " ASC"
+        if (limit > 0 && offset > -1) "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} ASC LIMIT $limit OFFSET $offset"
+        else ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
     )?.use {
         if (it.moveToFirst()) {
             do {
