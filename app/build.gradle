@@ -106,6 +106,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version"
 
+    implementation 'com.dynamsoft:dynamsoftbarcodereader:8.9.0@aar'
+    implementation 'com.dynamsoft:dynamsoftcameraenhancer:2.1.0@aar'
+
     def room_version = '2.4.0'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
