@@ -2,8 +2,8 @@ package com.example.stubprojectkotlin.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.location.Location
 import android.os.Looper
-import com.example.stubprojectkotlin.callbacks.LocationPermissionCallback
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 
@@ -13,24 +13,24 @@ class LocationManager(activity: Activity, private val removeUpdateLocation: Bool
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private var currentLocationLatLng: LatLng? = null
-    private lateinit var locationPermissionCallback: LocationPermissionCallback
+    var getLocationCallback : (Location) -> Unit = {}
 
 
     @SuppressLint("MissingPermission")
-    fun locationRequest(locationPermissionCallback: LocationPermissionCallback) {
-        this.locationPermissionCallback = locationPermissionCallback
-
+    fun locationRequest(getLocationCallback: (Location) -> Unit = {}) {
+        this.getLocationCallback = getLocationCallback
         buildLocationRequest()
         buildLocationCallBack()
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
+
     private fun buildLocationRequest() {
-        locationRequest = LocationRequest()
+        locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 4000
-        locationRequest.fastestInterval = 3000
-        locationRequest.smallestDisplacement = 20f
+//        locationRequest.fastestInterval = 3000
+//        locationRequest.smallestDisplacement = 20f
     }
 
     private fun buildLocationCallBack() {
@@ -43,7 +43,8 @@ class LocationManager(activity: Activity, private val removeUpdateLocation: Bool
                     if (removeUpdateLocation)
                         fusedLocationClient.removeLocationUpdates(locationCallback)
 
-                    locationPermissionCallback.locationCallback(currentLocationLatLng!!, location.isFromMockProvider)
+                    getLocationCallback(location)
+
                 }
             }
         }

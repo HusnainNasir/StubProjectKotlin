@@ -1,9 +1,9 @@
-package com.example.stubprojectkotlin.db
+package com.example.stubprojectkotlin.data_layer.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.stubprojectkotlin.db.dao.UserDao
-import com.example.stubprojectkotlin.db.entites.User
+import com.example.stubprojectkotlin.data_layer.local.db.dao.UserDao
+import com.example.stubprojectkotlin.data_layer.local.db.entites.User
 
 
 @Database(entities = [User::class], version = 2 , exportSchema = false)

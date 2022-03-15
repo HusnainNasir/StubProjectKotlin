@@ -11,7 +11,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.example.stubprojectkotlin.BuildConfig.BASE_URL
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.network.ApiService
+import com.example.stubprojectkotlin.data_layer.remote.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -39,7 +39,7 @@ class BackgroundService (
                 .build()
 
             val apiService = retrofit.create(ApiService::class.java)
-            apiService.getMalls()
+//            apiService.getMalls()
         }
 
         Log.d("malls" , malls.toString())

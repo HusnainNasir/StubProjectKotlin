@@ -1,4 +1,4 @@
-package com.example.stubprojectkotlin.network
+package com.example.stubprojectkotlin.data_layer.remote
 
 import com.google.gson.JsonElement
 import retrofit2.Response
@@ -17,6 +17,4 @@ interface ApiService {
     @POST("login")
     suspend fun refreshToken(@FieldMap loginHashMap: HashMap<String , Any>): Response<JsonElement>
 
-    @GET("api/v1/malls")
-    suspend fun getMalls() : JsonElement
 }

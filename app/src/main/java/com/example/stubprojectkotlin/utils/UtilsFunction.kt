@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.os.Looper
 import android.util.Base64
 import android.util.TypedValue
-import com.example.stubprojectkotlin.callbacks.NetworkCallback
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -89,7 +88,7 @@ object UtilsFunction {
     }
 
     // CHECK INTERNET CONNECTIVITY
-    fun isNetworkConnected(networkCallback: NetworkCallback) {
+    fun isNetworkConnected() {
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -101,9 +100,9 @@ object UtilsFunction {
                     val socketAddress = InetSocketAddress("8.8.8.8", 53)
                     socket.connect(socketAddress, timeoutMs)
                     socket.close()
-                    networkCallback.networkCallback(true)
+//                    networkCallback.networkCallback(true)
                 } catch (e: IOException) {
-                    networkCallback.networkCallback(false)
+//                    networkCallback.networkCallback(false)
                 }
                 Looper.loop()
             }

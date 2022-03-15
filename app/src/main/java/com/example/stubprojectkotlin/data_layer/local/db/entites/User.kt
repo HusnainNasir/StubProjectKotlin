@@ -1,6 +1,5 @@
-package com.example.stubprojectkotlin.db.entites
+package com.example.stubprojectkotlin.data_layer.local.db.entites
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey

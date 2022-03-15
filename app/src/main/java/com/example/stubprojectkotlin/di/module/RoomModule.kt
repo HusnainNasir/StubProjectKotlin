@@ -2,8 +2,8 @@ package com.example.stubprojectkotlin.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.example.stubprojectkotlin.db.ApplicationDatabase
-import com.example.stubprojectkotlin.db.dao.UserDao
+import com.example.stubprojectkotlin.data_layer.local.db.ApplicationDatabase
+import com.example.stubprojectkotlin.data_layer.local.db.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

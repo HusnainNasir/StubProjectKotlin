@@ -4,10 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import com.example.stubprojectkotlin.BuildConfig
-import com.example.stubprojectkotlin.network.ApiService
+import com.example.stubprojectkotlin.data_layer.remote.ApiService
 import com.example.stubprojectkotlin.ui.main_activity.MainActivity
 
 import com.example.stubprojectkotlin.utils.PreferenceHelper
@@ -85,42 +84,7 @@ object RetrofitModule {
             }
             response = chain.proceed(request)
 
-            if(response!!.code == 200 && response!!.request.method == "GET"){
-
-                response!!.close()
-
-                val tokenApi : ApiService = provideApiService(provideRetrofit(provideOkHttpClient(context , preferenceHelper) , provideBaseUrl()))
-
-                val loginHashMap: HashMap<String , Any> = HashMap()
-                loginHashMap["user[email]"] = "wasimamin538@gmail.com"
-                loginHashMap["user[password]"] = "12345"
-
-                runBlocking {
-                    try {
-                        val tokenResponse: retrofit2.Response<JsonElement> = tokenApi.refreshToken(loginHashMap)
-
-                        if (tokenResponse.isSuccessful){
-
-                        }else{
-                            Handler(Looper.getMainLooper()).post {
-                                Toast.makeText(
-                                    context.applicationContext,
-                                    response!!.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            context.startActivity(
-                                Intent(context, MainActivity::class.java).addFlags(
-                                    Intent.FLAG_ACTIVITY_NEW_TASK
-                                )
-                            )
-                        }
-                    }catch (e : Throwable){
-                    }
-                    catch (e : IllegalStateException){
-                    }
-                }
-            }
+//
             return response as Response
         }
     }

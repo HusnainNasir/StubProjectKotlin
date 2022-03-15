@@ -1,10 +1,9 @@
-package com.example.stubprojectkotlin.db.dao
+package com.example.stubprojectkotlin.data_layer.local.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.example.stubprojectkotlin.db.entites.User
+import com.example.stubprojectkotlin.data_layer.local.db.entites.User
 
 @Dao
 interface UserDao {

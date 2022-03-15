@@ -10,7 +10,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.callbacks.OnClickCallback
 
 object AlertDialogs {
 
@@ -45,7 +44,7 @@ object AlertDialogs {
         positiveText: String?,
         negativeText: String?,
         hideButton: Boolean,
-        onClickCallback: OnClickCallback
+        clickCallback: (Int) -> Unit = {}
     ) {
 
         if (context == null) return
@@ -70,11 +69,11 @@ object AlertDialogs {
 
         clickPositive.setOnClickListener {
             dialog.dismiss()
-            onClickCallback.onclick(Constants.CLICK_POSITIVE)
+            clickCallback(Constants.CLICK_POSITIVE)
         }
         clickNegative.setOnClickListener {
             dialog.dismiss()
-            onClickCallback.onclick(Constants.CLICK_NEGATIVE)
+            clickCallback(Constants.CLICK_NEGATIVE)
         }
         if (hideButton) clickPositive.visibility = View.GONE
 

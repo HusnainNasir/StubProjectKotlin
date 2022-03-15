@@ -3,9 +3,11 @@ package com.example.stubprojectkotlin.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
+import android.location.LocationManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.stubprojectkotlin.utils.Constants
 import com.example.stubprojectkotlin.utils.UtilsFunction.convertToDip
@@ -86,6 +88,24 @@ object Extensions {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+
+    fun Context.locationEnabled(): Boolean {
+        val lm = getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+        var gpsEnabled = false
+        var networkEnabled = false
+        try {
+            gpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            networkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return gpsEnabled || networkEnabled
     }
 
 
