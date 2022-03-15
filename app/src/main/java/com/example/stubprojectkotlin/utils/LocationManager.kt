@@ -21,6 +21,7 @@ class LocationManager(activity: Activity, private val removeUpdateLocation: Bool
         this.getLocationCallback = getLocationCallback
         buildLocationRequest()
         buildLocationCallBack()
+
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
