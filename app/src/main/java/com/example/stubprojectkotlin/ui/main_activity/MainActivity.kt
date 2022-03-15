@@ -1,50 +1,44 @@
 package com.example.stubprojectkotlin.ui.main_activity
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import com.example.stubprojectkotlin.BaseActivity
-import com.example.stubprojectkotlin.R
+import com.example.stubprojectkotlin.data_layer.MainViewModel
+import com.example.stubprojectkotlin.databinding.ActivityMainBinding
 import com.example.stubprojectkotlin.utils.LocationManager
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
-    override val layoutId: Int
-        get() = R.layout.activity_main
+    private lateinit var activityMainBinding: ActivityMainBinding
+
+    override val layoutId: View
+        get() {
+            activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+            return activityMainBinding.root
+        }
     override val tag: String?
         get() = MainActivity::class.simpleName
-    
 
-    private lateinit var locationManager: LocationManager
+    private lateinit var mainViewModel: MainViewModel
 
     override fun created(savedInstance: Bundle?) {
 
-        locationManager = LocationManager(this, true)
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        /*locationPermission(object : PermissionCallback {
-            override fun permissionCallback(isPermission: Boolean) {
-                if (isPermission) {
-                    locationManager.locationRequest(object : LocationPermissionCallback {
-                        override fun locationCallback(
-                            currentLatLng: LatLng,
-                            fakeLocation: Boolean
-                        ) {
+        activityMainBinding.helloWorld.setOnClickListener {
 
-                           Log.d(tag , currentLatLng.latitude.toString())
-                        }
-                    })
-                }
-            }
-        })*/
+            val loginHashMap: HashMap<String, Any> = HashMap()
 
-
-        Log.d("MainActivity" , "Sum of two Number ${sumOfTwoNumber(firstNumber =  18 , secondNumber = 2.0).toInt()}")
-
-
+            loginHashMap["user[email]"] = "wasimamin538@gmail.com"
+            loginHashMap["user[password]"] = "123456"
+            mainViewModel.login(loginHashMap)
+        }
 
     }
-
-    private fun sumOfTwoNumber(firstNumber :Int , secondNumber : Double) = firstNumber + secondNumber
 
 
 }

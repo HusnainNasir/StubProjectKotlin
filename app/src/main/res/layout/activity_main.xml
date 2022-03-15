@@ -6,13 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".ui.main_activity.MainActivity">
 
+
     <TextView
+        android:id="@+id/tv_res"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:scrollbars="vertical"
+        android:textColor="@color/white"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/helloWorld"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/login"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/helloWorld"/>
+
+    <TextView
+        android:id="@+id/getMalls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Malls!"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/helloWorld" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

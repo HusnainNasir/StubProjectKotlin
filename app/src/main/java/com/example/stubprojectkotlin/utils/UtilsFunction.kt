@@ -1,11 +1,12 @@
 package com.example.stubprojectkotlin.utils
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Looper
 import android.util.Base64
-import com.example.stubprojectkotlin.callbacks.NetworkCallback
+import android.util.TypedValue
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -23,6 +24,11 @@ object UtilsFunction {
         val bOut = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bOut)
         return Base64.encodeToString(bOut.toByteArray(), Base64.NO_WRAP)
+    }
+
+
+    fun convertToDip(value: Int): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP , value.toFloat() ,Resources.getSystem().displayMetrics).toInt()
     }
 
     // ENCODE FILE TO BASE 64
@@ -82,7 +88,7 @@ object UtilsFunction {
     }
 
     // CHECK INTERNET CONNECTIVITY
-    fun isNetworkConnected(networkCallback: NetworkCallback) {
+    fun isNetworkConnected() {
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -94,9 +100,9 @@ object UtilsFunction {
                     val socketAddress = InetSocketAddress("8.8.8.8", 53)
                     socket.connect(socketAddress, timeoutMs)
                     socket.close()
-                    networkCallback.networkCallback(true)
+//                    networkCallback.networkCallback(true)
                 } catch (e: IOException) {
-                    networkCallback.networkCallback(false)
+//                    networkCallback.networkCallback(false)
                 }
                 Looper.loop()
             }

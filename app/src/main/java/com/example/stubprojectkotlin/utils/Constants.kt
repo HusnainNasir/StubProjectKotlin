@@ -14,4 +14,5 @@ object Constants {
     // FOR ALERT DIALOG LISTENER
     const val CLICK_POSITIVE = 1
     const val CLICK_NEGATIVE = 2
+    const val SHORT_ANIMATION_DURATION = 150L
 }

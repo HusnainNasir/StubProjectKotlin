@@ -1,7 +1,6 @@
 package com.example.stubprojectkotlin.utils
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,8 +10,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import com.example.stubprojectkotlin.R
-import com.example.stubprojectkotlin.callbacks.OnClickCallback
-import java.util.*
 
 object AlertDialogs {
 
@@ -47,7 +44,7 @@ object AlertDialogs {
         positiveText: String?,
         negativeText: String?,
         hideButton: Boolean,
-        onClickCallback: OnClickCallback
+        clickCallback: (Int) -> Unit = {}
     ) {
 
         if (context == null) return
@@ -72,11 +69,11 @@ object AlertDialogs {
 
         clickPositive.setOnClickListener {
             dialog.dismiss()
-            onClickCallback.onclick(Constants.CLICK_POSITIVE)
+            clickCallback(Constants.CLICK_POSITIVE)
         }
         clickNegative.setOnClickListener {
             dialog.dismiss()
-            onClickCallback.onclick(Constants.CLICK_NEGATIVE)
+            clickCallback(Constants.CLICK_NEGATIVE)
         }
         if (hideButton) clickPositive.visibility = View.GONE
 
@@ -84,5 +81,7 @@ object AlertDialogs {
         dialog.window?.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
+
+
 }
 
