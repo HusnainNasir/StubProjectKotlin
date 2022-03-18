@@ -18,7 +18,6 @@ import com.qifan.powerpermission.data.hasRational
 
 object PermissionExtension {
 
-
     fun AppCompatActivity.locationPermission(permissionCallback: (Boolean) -> Unit = {}){
         if (locationEnabled()) {
             requestLocationPermission(permissionCallback)
